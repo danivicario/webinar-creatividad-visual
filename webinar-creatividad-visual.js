@@ -1,33 +1,4 @@
 // Dani Vicario - webinar-creatividad-visual experiment (canvas)- Tue 30 Jul 2019 13:53:13 CEST
-const globalCompositeOperationModes = {
-  'source-over': 'source-over',
-  'source-in': 'source-in',
-  'source-out': 'source-out',
-  'source-atop': 'source-atop',
-  'destination-over': 'destination-over',
-  'destination-in': 'destination-in',
-  'destination-out': 'destination-out',
-  'destination-atop': 'destination-atop',
-  lighter: 'lighter',
-  copy: 'copy',
-  xor: 'xor',
-  multiply: 'multiply',
-  screen: 'screen',
-  overlay: 'overlay',
-  darken: 'darken',
-  lighten: 'lighten',
-  'color-dodge': 'color-dodge',
-  'color-burn': 'color-burn',
-  'hard-light': 'hard-light',
-  'soft-light': 'soft-light',
-  difference: 'difference',
-  exclusion: 'exclusion',
-  hue: 'hue',
-  saturation: 'saturation',
-  color: 'color',
-  luminosity: 'luminosity'
-}
-
 function randomFloat (min, max) {
   return Math.random() * (max - min) + min
 }
@@ -54,32 +25,39 @@ var PI_HALF = Math.PI / 2
 canvasDOMEl.setAttribute('height', window.innerHeight)
 canvasDOMEl.setAttribute('width', window.innerWidth)
 
-let img = new Image()
-img.src = 'img.jpg'
-img.onload = function () {
-  //   ctx.translate(w2 - img.width / 2, (window.innerHeight - img.height) / 2)
-  ctx.drawImage(img, 0, 0, img.width, img.height)
+// Array(300)
+//   .fill()
+//   .forEach(() => {
+//     ctx.beginPath()
+//     ctx.fillStyle = `rgba(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)}, .80)`
+//     ctx.arc(randomInt(0, w), randomInt(0, h), randomInt(5, 50), 0, PI_DOUBLE)
+//     ctx.fill()
+//     ctx.closePath()
+//   })
 
-  let imgData = ctx.getImageData(0, 0, img.width, img.height)
+for (var i = 0; i < 1000; i+=30) {
+  let posX = 0;
 
-  var posX = 0
-  var posY = 0
+  Array(w)
+    .fill()
+    .forEach((x, idx) => {
+      posX += 2
 
-  for (var i = 0; i < imgData.data.length; i += 4) {
-    red = imgData.data[i]
-    green = imgData.data[i + 1]
-    blue = imgData.data[i + 2]
-    alpha = imgData.data[i + 3]
-
-    ctx.beginPath()
-    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, 1)`
-    posX+=1
-    if (posX > img.width) {
-        posY+=1
-        posX = 0
-    }
-    ctx.arc(posX, posY, 10, 0, PI_DOUBLE)
-    ctx.fill()
-    ctx.closePath()
-  }
+      ctx.beginPath()
+      ctx.fillStyle = `rgba(${randomInt(0, 255)}, ${randomInt(
+        0,
+        255
+      )}, ${randomInt(0, 255)}, .20)`
+      // ctx.arc(posX, h2 + 100 * Math.sin(posX * Math.PI / 180), randomInt(5, 30), 0, PI_DOUBLE)
+      // ctx.arc(posX, h2 + 100 * Math.sin(posX * Math.PI / 180), randomInt(5, 5), 0, PI_DOUBLE)
+      ctx.arc(
+        w2 + (50 + i) * Math.cos((posX * Math.PI) / 180),
+        h2 + (50 + i) * Math.sin((posX * Math.PI) / 180),
+        randomInt(5, 15),
+        0,
+        PI_DOUBLE
+      )
+      ctx.fill()
+      ctx.closePath()
+    })
 }
